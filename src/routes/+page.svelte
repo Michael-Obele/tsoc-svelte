@@ -1,4 +1,5 @@
 <script>
+	export let data;
 </script>
 
 <div class="container mx-auto rounded-lg bg-white px-4 py-4 shadow-md dark:bg-gray-800">
@@ -32,3 +33,16 @@
 		>
 	</section>
 </div>
+
+{#if data.users.length > 0}
+	{#each data.users as item (item.id)}
+		<div
+			class="mb-4 flex flex-col items-center border-b border-gray-200 last:border-b-0 dark:border-gray-700 md:flex-row"
+		>
+			<div class="text-lg font-bold text-blue-600 dark:text-blue-400">{item.id}</div>
+			<div class="ml-2 text-gray-700 dark:text-gray-300">{item.name}</div>
+		</div>
+	{/each}
+{:else}
+	<h3 class="text-gray-700 dark:text-gray-300">No users to display</h3>
+{/if}
