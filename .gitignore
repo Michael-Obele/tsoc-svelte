@@ -10,6 +10,12 @@ node_modules
 .DS_Store
 Thumbs.db
 
+bun*
+
+bun.lockb
+
+diff.txt
+
 # Env
 .env
 .env.*
