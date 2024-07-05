@@ -4,29 +4,48 @@ import type { Action } from 'svelte/action';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
-	const getUsers = await db.user.findMany();
-	console.log(getUsers);
-	return {
-		users: getUsers || null
-	};
+	try {
+		const getUsers = await db.user.findMany();
+		return {
+			users: getUsers
+		};
+	} catch (error) {
+		console.dir(error);
+		console.warn(error);
+	}
 };
 
-// export const actions = {
-// 	add: async ({ request }) => {
-// 		const data = await request.formData();
-// 		const name = String(data.get('name'));
-// 		const user = await db.user.findUnique({
-// 			where: { name }
-// 		});
+export const actions = {
+	add: async ({ request }) => {
+		const data = await request.formData();
+		const name = String(data.get('name'));
+		console.log('Adding: ', name);
 
-// 		if (user) {
-// 			return fail(400, { user: true });
-// 		}
+		const existingUser = await db.user.findUnique({
+			where: { name }
+		});
 
-// 		const createUser = await db.user.create({
-// 			data: {
-// 				name
-// 			}
-// 		});
-// 	}
-// };
+		if (existingUser) {
+			return fail(400, { user: true });
+		}
+
+		const createUser = await db.user.create({
+			data: {
+				name: name
+			}
+		});
+		return createUser;
+	},
+	remove: async ({ request }) => {
+		const data = await request.formData();
+		const name = String(data.get('name'));
+		console.log('Removing: ', name);
+
+		const createUser = await db.user.delete({
+			where: {
+				name: name
+			}
+		});
+		return createUser;
+	}
+};
