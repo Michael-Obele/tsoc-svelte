@@ -7,10 +7,10 @@ generator client {
 
 datasource db {
   // provider = "sqlite"
-  provider = "postgresql"
+  provider  = "postgresql"
   // url      = env("DATABASE_URL") // uses connection locally
-  url      = env("POSTGRES_URL") // uses connection pooling
-  // directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  url       = env("POSTGRES_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model User {
